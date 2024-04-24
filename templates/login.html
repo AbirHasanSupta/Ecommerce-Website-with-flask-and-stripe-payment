@@ -1,0 +1,18 @@
+{% include "header.html" %}
+{% from "bootstrap/form.html" import render_form %}
+
+<div class="login">
+
+</div>
+<div class="container py-2">
+    {{render_form(form)}}
+    {% with messages=get_flashed_messages() %}
+    {%  if messages %}
+    {% for message in messages %}
+    <p class="flash">{{message}}</p>
+      {% endfor %}
+      {% endif%}
+      {% endwith %}
+</div>
+
+{% include "footer.html" %}

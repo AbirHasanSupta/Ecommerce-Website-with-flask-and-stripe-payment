@@ -1,0 +1,47 @@
+{% include "header.html "%}
+<div class="container my-5">
+<div class="row g-3">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Your cart</span>
+          <span class="badge bg-primary rounded-pill">{{product_list|length}}</span>
+        </h4>
+        <ul class="list-group mb-3">
+          {% for product in product_list%}
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">{{product[0]}} <a class="badge bg-white text-white rounded-pill" href="{{url_for('remove_product', product_id=product[3])}}">❌</a></h6>
+              <small class="text-body-secondary">{{product[2]}} </small>
+            </div>
+            <span class="text-body-secondary">{{product[1]}}</span>
+          </li>
+          {% endfor %}
+
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>${{total}}</strong>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+
+            <a class="btn btn-primary" href="{{url_for('products')}}">Add item</a>
+          </li>
+        </ul>
+
+
+      </div>
+</div>
+<form action="{{url_for('payment')}}" method="POST">
+  {% set amount = total.replace(".","")%}
+  <input type="hidden" name="amount" value="{{amount}}">
+  <script
+    src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+    data-key="pk_test_51OyJIZGHmmTC5qanngyYueJ2nlmPbfOwJ3nrvSQYOY5lNuwiWCULeVSn9UFoWpOQLFUV2w7jUrLPwcHEYp9lTxkG00cQojzIgy"
+    data-name="Payment"
+    data-description="Enter your information."
+    data-amount="{{amount}}"
+    data-currency="usd">
+  </script>
+</form>
+</div>
+{% include "footer.html "%}
